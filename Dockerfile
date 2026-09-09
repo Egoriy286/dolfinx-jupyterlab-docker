@@ -289,13 +289,4 @@ WORKDIR /workspace
 
 EXPOSE 8888
 
-# Xvfb запускается перед Jupyter
-CMD ["/usr/local/bin/start-xvfb.sh", \
-     "jupyter", \
-     "lab", \
-     "--ip=0.0.0.0", \
-     "--port=8888", \
-     "--no-browser", \
-     "--ServerApp.allow_root=True", \
-     "--ServerApp.token=student123", \
-     "--ServerApp.password="]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--allow-root", "--NotebookApp.token='student123'", "--NotebookApp.password='student123'"]
