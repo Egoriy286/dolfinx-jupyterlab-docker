@@ -1,4 +1,3 @@
-```dockerfile
 # ============================================================
 # DOLFINx 0.10 + JupyterLab + PyVista + VTK + ParaView
 # + Xvfb + Mesa/OpenGL
@@ -192,4 +191,3 @@ CMD ["/usr/local/bin/start-xvfb.sh", \
      "--no-browser", \
      "--allow-root", \
      "--NotebookApp.token=student123"]
-```
