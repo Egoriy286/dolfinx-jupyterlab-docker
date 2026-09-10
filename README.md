@@ -1,118 +1,65 @@
-# FEniCSx Docker Images
+# FEniCSx Docker Images — Short Guide
 
-Docker-образы для работы с **FEniCSx / DOLFINx v0.10**, подготовленные на основе официального образа DOLFINx.
-
-Репозиторий содержит две версии:
-
-* **real** — вычисления с вещественными числами;
-* **complex** — вычисления с комплексными числами.
-
-Образы опубликованы в **GitHub Container Registry (GHCR)**.
-
----
-
-## Базовый образ
-
-Используется официальный образ DOLFINx:
+Docker images for **FEniCSx / DOLFINx v0.10**.  
+Based on the official image:
 
 ```text
 ghcr.io/fenics/dolfinx/dolfinx:v0.10.0-r1
 ```
 
-В базовое окружение входят:
-
-* Python;
-* MPI;
-* PETSc;
-* UFL;
-* Basix;
-* DOLFINx;
-* поддержка HPC и MPI-расчётов.
-
-Дополнительно в пользовательские образы включены инструменты для научных вычислений и визуализации:
-
-* JupyterLab;
-* NumPy;
-* SciPy;
-* Pandas;
-* Matplotlib;
-* meshio;
-* PyVista;
-* VTK;
-* ParaView;
-* Xvfb;
-* Mesa / OpenGL;
-* Qt/X11-зависимости.
+Includes: Python, MPI, PETSc, UFL, Basix, DOLFINx, JupyterLab, NumPy, SciPy, Pandas, Matplotlib, meshio, PyVista, VTK, ParaView, Xvfb, Mesa/OpenGL, Qt/X11.
 
 ---
 
-# Доступные образы
+## Images
 
-## 🔹 Real — вещественная арифметика
+**Real arithmetic:**
 
 ```bash
-docker pull ghcr.io/egoriy286/fenicsx-real:main
+docker pull ghcr.io/egoriy286/fenicsx-real-v10:main
 ```
 
-## 🔹 Complex — комплексная арифметика
+**Complex arithmetic:**
 
 ```bash
-docker pull ghcr.io/egoriy286/fenicsx-complex:main
+docker pull ghcr.io/egoriy286/fenicsx-complex-v10:main
 ```
 
 ---
 
-# Быстрый старт
+## Quick start
 
-## Интерактивный режим
-
-Для вещественной версии:
+Interactive shell:
 
 ```bash
-docker run -it --rm \
-  -p 8888:8888 \
-  ghcr.io/egoriy286/fenicsx-real:main \
-  bash
+docker run -it --rm -p 8888:8888 \
+  ghcr.io/egoriy286/fenicsx-real-v10:main bash
 ```
 
-Для комплексной версии:
+For complex, replace the image name with:
 
-```bash
-docker run -it --rm \
-  -p 8888:8888 \
-  ghcr.io/egoriy286/fenicsx-complex:main \
-  bash
+```text
+ghcr.io/egoriy286/fenicsx-complex:main
 ```
 
 ---
 
-# Запуск JupyterLab
+## JupyterLab
 
-Контейнер можно запустить в фоновом режиме:
-
-```bash
-docker run -d \
-  --name fenicsx-real \
-  -p 8888:8888 \
-  ghcr.io/egoriy286/fenicsx-real:main
-```
-
-Для complex-версии:
+Start in background:
 
 ```bash
-docker run -d \
-  --name fenicsx-complex \
-  -p 8888:8888 \
-  ghcr.io/egoriy286/fenicsx-complex:main
+docker run -d --name fenicsx-real -p 8888:8888 \
+  ghcr.io/egoriy286/fenicsx-real-v10:main
 ```
 
-После запуска JupyterLab будет доступен по адресу:
+Open:
 
 ```text
 http://localhost:8888
 ```
 
-Пароль:
+Password:
 
 ```text
 student123
@@ -120,94 +67,41 @@ student123
 
 ---
 
-# Управление контейнером
+## Keep files
 
-Посмотреть запущенные контейнеры:
+Use a volume:
+
+```bash
+docker run -d --name fenicsx-real -p 8888:8888 \
+  -v "$(pwd)/workspace:/workspace" \
+  ghcr.io/egoriy286/fenicsx-real-v10:main
+```
+
+PowerShell:
+
+```powershell
+docker run -d --name fenicsx-real -p 8888:8888 `
+  -v "${PWD}/workspace:/workspace" `
+  ghcr.io/egoriy286/fenicsx-real-v10:main
+```
+
+---
+
+## Container commands
 
 ```bash
 docker ps
-```
-
-Посмотреть логи:
-
-```bash
 docker logs fenicsx-real
-```
-
-Подключиться к уже запущенному контейнеру:
-
-```bash
 docker exec -it fenicsx-real bash
-```
-
-Остановить контейнер:
-
-```bash
 docker stop fenicsx-real
-```
-
-Удалить остановленный контейнер:
-
-```bash
 docker rm fenicsx-real
 ```
 
 ---
 
-# Постоянное хранение файлов
+## Visualization
 
-Для сохранения Jupyter Notebook, результатов расчётов и других файлов рекомендуется использовать volume.
-
-Например:
-
-```bash
-docker run -d \
-  --name fenicsx-real \
-  -p 8888:8888 \
-  -v "$(pwd)/workspace:/workspace" \
-  ghcr.io/egoriy286/fenicsx-real:main
-```
-
-Теперь содержимое каталога:
-
-```text
-./workspace
-```
-
-на хост-системе будет доступно внутри контейнера как:
-
-```text
-/workspace
-```
-
-На Windows PowerShell можно использовать:
-
-```powershell
-docker run -d `
-  --name fenicsx-real `
-  -p 8888:8888 `
-  -v "${PWD}/workspace:/workspace" `
-  ghcr.io/egoriy286/fenicsx-real:main
-```
-
----
-
-# Визуализация
-
-В образах присутствует графический стек для **headless rendering**:
-
-* Xvfb;
-* Mesa;
-* OpenGL;
-* GLX/EGL;
-* Qt/X11;
-* VTK;
-* PyVista;
-* ParaView.
-
-Это позволяет выполнять визуализацию без физического монитора и без GPU.
-
-Например:
+Headless PyVista example:
 
 ```python
 import pyvista as pv
@@ -221,69 +115,27 @@ plotter.add_mesh(sphere)
 plotter.show(screenshot="sphere.png")
 ```
 
-Полученный файл:
-
-```text
-sphere.png
-```
-
-можно открыть непосредственно из JupyterLab.
-
----
-
-# PyVista в JupyterLab
-
-Для интерактивного вывода можно использовать backend `trame`:
+Interactive in JupyterLab:
 
 ```python
 import pyvista as pv
 
 pv.set_jupyter_backend("trame")
 
-sphere = pv.Sphere()
-
 plotter = pv.Plotter()
-plotter.add_mesh(sphere)
+plotter.add_mesh(pv.Sphere())
 plotter.show()
 ```
 
-Это позволяет использовать визуализацию VTK/PyVista непосредственно в Jupyter-среде.
-
----
-
-# ParaView
-
-ParaView установлен внутри образа вместе с необходимыми библиотеками Qt, X11, OpenGL и Mesa.
-
-Проверить установку:
+ParaView check:
 
 ```bash
 paraview --version
 ```
 
-Также доступны Python bindings:
-
-```python
-import paraview
-print(paraview)
-```
-
-При этом контейнер рассчитан прежде всего на **headless / server-side rendering**.
-
-Для полноценного оконного GUI ParaView потребуется соответствующая X11/VNC-инфраструктура. На Windows обычно удобнее запускать ParaView непосредственно на хост-системе и открывать результаты, созданные DOLFINx.
-
 ---
 
-# Сохранение результатов FEM
-
-Результаты расчётов можно сохранять в стандартные форматы:
-
-* `.xdmf`;
-* `.h5`;
-* `.vtu`;
-* `.pvd`.
-
-Например:
+## Save FEM results
 
 ```python
 from dolfinx.io import XDMFFile
@@ -293,22 +145,18 @@ with XDMFFile(comm, "result.xdmf", "w") as xdmf:
     xdmf.write_function(u)
 ```
 
-После этого файл можно открыть в ParaView.
+Formats: `.xdmf`, `.h5`, `.vtu`, `.pvd`.
 
 ---
 
-# MPI
-
-Образы предназначены для MPI-расчётов.
-
-Пример:
+## MPI
 
 ```bash
 docker exec -it fenicsx-real \
   mpirun -n 4 python3 solver.py
 ```
 
-Для небольших тестов:
+Small tests:
 
 ```bash
 python3 solver.py
@@ -316,115 +164,26 @@ python3 solver.py
 
 ---
 
-# Проверка окружения
-
-Проверить версию DOLFINx:
+## Check environment
 
 ```bash
 python3 -c "import dolfinx; print(dolfinx.__version__)"
-```
-
-Проверить PETSc:
-
-```bash
 python3 -c "from petsc4py import PETSc; print(PETSc.Sys.getVersion())"
-```
-
-Проверить MPI:
-
-```bash
 mpirun --version
-```
-
-Проверить OpenGL:
-
-```bash
 glxinfo | grep -E "OpenGL vendor|OpenGL renderer|OpenGL version"
 ```
 
-Ожидается software rendering через Mesa/LLVMpipe.
+---
+
+## License
+
+MIT. See `LICENSE`.
+
+Third-party components keep their own licenses.
 
 ---
 
-# Назначение образов
-
-Образы предназначены для:
-
-* численного решения PDE;
-* метода конечных элементов (FEM);
-* FEniCSx / DOLFINx;
-* MPI-расчётов;
-* научных вычислений;
-* визуализации через PyVista/VTK;
-* подготовки результатов для ParaView;
-* JupyterLab;
-* CI/CD;
-* серверных и headless-сред;
-* HPC-экспериментов;
-* разработки и обучения.
-
----
-
-# Пример рабочего процесса
-
-Типичный workflow:
-
-```text
-DOLFINx
-   │
-   ├── FEM mesh
-   │
-   ├── PDE solver
-   │
-   ├── MPI / PETSc
-   │
-   └── Results
-          │
-          ├── XDMF / HDF5
-          ├── VTU / PVD
-          │
-          └── PyVista / ParaView
-```
-
-Для ML-задач образ также можно использовать как вычислительный backend:
-
-```text
-DOLFINx / FEM
-       │
-       ▼
-  FEM snapshots
-       │
-       ▼
-   NumPy arrays
-       │
-       ▼
-      FNO
-       │
-       ▼
-   Operator learning
-```
-
----
-
-# Лицензия
-
-Проект распространяется под лицензией **MIT**.
-
-Полный текст лицензии находится в файле:
-
-```text
-LICENSE
-```
-
-Лицензия применяется к дополнительным Dockerfile, конфигурации и исходным материалам данного репозитория.
-
-Используемые сторонние компоненты, включая **FEniCSx, DOLFINx, PETSc, UFL, Basix, VTK, ParaView, Mesa и Python-библиотеки**, распространяются в соответствии с их собственными лицензиями.
-
----
-
-# Repository structure
-
-Рекомендуемая структура репозитория:
+## Repository structure
 
 ```text
 .
@@ -434,17 +193,4 @@ LICENSE
 ├── LICENSE
 ├── README.md
 └── workspace/
-```
-
-Для публикации образов используется:
-
-```text
-GitHub Container Registry (GHCR)
-```
-
-Образы:
-
-```text
-ghcr.io/egoriy286/fenicsx-real:main
-ghcr.io/egoriy286/fenicsx-complex:main
 ```
