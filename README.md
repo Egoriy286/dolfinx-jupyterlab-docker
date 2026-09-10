@@ -1,4 +1,4 @@
-# FEniCSx Docker Images — Short Guide
+# FEniCSx Docker Images
 
 Docker images for **FEniCSx / DOLFINx v0.10**.  
 Based on the official image:
