@@ -97,7 +97,6 @@ RUN chown -R root:root /dolfinx-env && \
 
 RUN useradd \
         --create-home \
-        --uid 1000 \
         --shell /bin/bash \
         fenics && \
     echo "fenics ALL=(ALL) NOPASSWD: /usr/bin/apt, /usr/bin/apt-get" \
