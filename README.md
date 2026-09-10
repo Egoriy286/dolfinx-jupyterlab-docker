@@ -32,8 +32,7 @@ docker pull ghcr.io/egoriy286/fenicsx-complex-v10:main
 Interactive shell:
 
 ```bash
-docker run -it --rm -p 8888:8888 \
-  ghcr.io/egoriy286/fenicsx-real-v10:main bash
+docker run -it --rm -p 8888:8888 ghcr.io/egoriy286/fenicsx-real-v10:main bash
 ```
 
 For complex, replace the image name with:
@@ -49,8 +48,7 @@ ghcr.io/egoriy286/fenicsx-complex:main
 Start in background:
 
 ```bash
-docker run -d --name fenicsx-real -p 8888:8888 \
-  ghcr.io/egoriy286/fenicsx-real-v10:main
+docker run -d --name fenicsx-real -p 8888:8888 ghcr.io/egoriy286/fenicsx-real-v10:main
 ```
 
 Open:
