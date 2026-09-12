@@ -153,7 +153,8 @@ RUN echo "source dolfinx-complex-mode" >> /etc/bash.bashrc && \
 
 RUN mkdir -p /workspace && \
     chown -R fenics:fenics /workspace
-
+    
+RUN chown -R fenics:fenics /dolfinx-env
 # ------------------------------------------------------------
 # 7. Prepare X11 runtime directories
 #

@@ -140,7 +140,8 @@ RUN python3 -m pip install \
 
 RUN mkdir -p /workspace && \
     chown -R fenics:fenics /workspace
-
+    
+RUN chown -R fenics:fenics /dolfinx-env
 # ------------------------------------------------------------
 # 6. Prepare X11 runtime directories
 #
